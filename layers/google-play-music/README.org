@@ -1,0 +1,33 @@
+#+TITLE: google-play-music layer
+
+# The maximum height of the logo should be 200 pixels.
+[[img/google-play-music.png]]
+
+# TOC links should be GitHub style anchors.
+* Table of Contents                                        :TOC_4_gh:noexport:
+ - [[#description][Description]]
+ - [[#install][Install]]
+ - [[#key-bindings][Key bindings]]
+
+* Description
+This layer does wonderful things:
+  - Control [[https://github.com/MarshallOfSound/Google-Play-Music-Desktop-Player-UNOFFICIAL-/blob/master/docs/PlaybackAPI_WebSocket.md][Desktop Player for Google Play Music]] within emacs
+
+* Install
+To use this configuration layer, add it to your =~/.spacemacs=. You will need to
+add =google-play-music= to the existing =dotspacemacs-configuration-layers= list in this
+file.
+
+* Key bindings
+
+| Key Binding | Description       |
+|-------------+-------------------|
+| ~SPC a m s~ | connect to player |
+| ~SPC a m p~ | play/pause        |
+| ~SPC a m f~ | next song         |
+| ~SPC a m u~ | previous song     |
+# Use GitHub URLs if you wish to link a Spacemacs documentation file or its heading.
+# Examples:
+# [[https://github.com/syl20bnr/spacemacs/blob/master/doc/VIMUSERS.org#sessions]]
+# [[https://github.com/syl20bnr/spacemacs/blob/master/layers/%2Bfun/emoji/README.org][Link to Emoji layer README.org]]
+# If space-doc-mode is enabled, Spacemacs will open a local copy of the linked file.
