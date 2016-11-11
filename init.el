@@ -62,6 +62,7 @@ values."
      org
      osx
      git
+     swift
      docker
      yaml
      emoji
@@ -70,7 +71,8 @@ values."
               twittering-proxy-server "127.0.0.1"
               twittering-proxy-port 7071)
      (go :variables
-         go-use-gometalinter t
+         go-use-gometalinter nil
+         gofmt-command "goimports"
          go-tab-width 2)
      scala
      markdown
@@ -82,6 +84,7 @@ values."
      (shell :variables
             shell-default-term-shell "/usr/bin/fish"
             shell-default-height 30
+            shell-default-full-span nil
             shell-default-position 'bottom)
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
@@ -120,14 +123,14 @@ values."
    ;; This variable has no effect if Emacs is launched with the parameter
    ;; `--insecure' which forces the value of this variable to nil.
    ;; (default t)
-   dotspacemacs-elpa-https t
+   dotspacemacs-elpa-https nil
    ;; Maximum allowed time in seconds to contact an ELPA repository.
    dotspacemacs-elpa-timeout 5
    ;; If non nil then spacemacs will check for updates at startup
    ;; when the current branch is not `develop'. Note that checking for
    ;; new versions works via git commands, thus it calls GitHub services
    ;; whenever you start Emacs. (default nil)
-   dotspacemacs-check-for-update nil
+   dotspacemacs-check-for-update t
    ;; If non-nil, a form that evaluates to a package directory. For example, to
    ;; use different package directories for different Emacs versions, set this
    ;; to `emacs-version'.
@@ -147,15 +150,15 @@ values."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner 'official
+   dotspacemacs-startup-banner 'random
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
    ;; Possible values for list-type are:
    ;; `recents' `bookmarks' `projects' `agenda' `todos'."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
-   dotspacemacs-startup-lists '((recents . 5)
-                                (projects . 7))
+   dotspacemacs-startup-lists '((recents . 7)
+                                (projects . 5))
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
    ;; Default major mode of the scratch buffer (default `text-mode')
@@ -247,7 +250,7 @@ values."
    dotspacemacs-helm-use-fuzzy 'always
    ;; If non nil the paste micro-state is enabled. When enabled pressing `p`
    ;; several times cycle between the kill ring content. (default nil)
-   dotspacemacs-enable-paste-transient-state nil
+   dotspacemacs-enable-paste-transient-state t
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
    dotspacemacs-which-key-delay 0.4
@@ -259,7 +262,7 @@ values."
    ;; If non nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil to boost the loading time. (default t)
-   dotspacemacs-loading-progress-bar t
+   dotspacemacs-loading-progress-bar nil
    ;; If non nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
    dotspacemacs-fullscreen-at-startup nil
@@ -322,7 +325,7 @@ values."
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup 'changed
+   dotspacemacs-whitespace-cleanup 'all
    ))
 
 (defun dotspacemacs/user-init ()
@@ -357,6 +360,7 @@ you should place your code here."
   (fcitx-prefix-keys-add "M-m")
 
   ;; go
+  (setq flycheck-gometalinter-disable-linters '("gotype"))
 
   ;; scala
   (setq-default scala-indent:step 2)
@@ -393,11 +397,13 @@ you should place your code here."
   ;;(set-fontset-font t 'unicode "Noto Emoji" nil 'prepend)
 
   (setq markdown-command "kramdown")
+  ;; modeline
   (spaceline-define-segment battery
-    "what is this"
+    "replace battery with google play music track"
     google-play-music-mode-line-text
-    :enabled t
-    :when t)
+    :fallback "Not Started")
+
+  (display-time-mode t)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
