@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: copyright
+# key: cr
+# --
+/*
+ * `(file-name-nondirectory (buffer-file-name))`
+ * `(projectile-project-name)`
+ *
+ * Created by `(user-full-name)` on `(format-time-string "%Y-%m-%d")`
+ * Copyright (c) `(format-time-string "%Y")` $1. All rights reserved.
+ */
