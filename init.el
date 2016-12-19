@@ -31,9 +31,12 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     typescript
+     vue
+     javascript
+     lua
      html
      yaml
-     python
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -56,13 +59,11 @@ values."
      ;; customize
      google-play-music
      shell-scripts
-     (auto-completion :variables
-                      auto-completion-enable-help-tooltip t)
+     auto-completion
      better-defaults
      org
-     osx
+     ;;osx
      git
-     swift
      docker
      yaml
      emoji
@@ -86,15 +87,12 @@ values."
             shell-default-height 30
             shell-default-full-span nil
             shell-default-position 'bottom)
-     (c-c++ :variables
-            c-c++-default-mode-for-headers 'c++-mode
-            c-c++-enable-clang-support t)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(hexo kotlin-mode protobuf-mode all-the-icons)
+   dotspacemacs-additional-packages '(ag hexo kotlin-mode protobuf-mode)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -272,7 +270,7 @@ values."
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup t
+   dotspacemacs-maximized-at-startup nil
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
@@ -341,6 +339,8 @@ before packages are loaded. If you are unsure, you should try in setting them in
   ;;       monokai-height-plus-4 1.0
   ;;       monokai-height-minus-1 1.0)
 
+  (setq exec-path-from-shell-check-startup-files nil)
+  (setq solarized-use-variable-pitch nil)
   (setq monokai-use-variable-pitch nil))
 
 (defun dotspacemacs/user-config ()
@@ -351,7 +351,7 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
-  (load-file "~/.spacemacs.d/init-fira-code.el")
+  ;;(load-file "~/.spacemacs.d/init-fira-code.el")
   (load-file "~/.spacemacs.d/private.el")
 
   ;; fcitx
@@ -360,8 +360,7 @@ you should place your code here."
   (fcitx-prefix-keys-add "M-m")
 
   ;; go
-  (setq flycheck-gometalinter-disable-linters '("gotype"))
-
+  ;;(setq flycheck-gometalinter-disable-linters '("gotype"))
   ;; scala
   (setq-default scala-indent:step 2)
 
@@ -375,6 +374,14 @@ you should place your code here."
 
   ;;auto-completion
   (global-company-mode t)
+
+  ;; js
+  (setq-default js2-basic-offset 2)
+  (setq-default js-indent-level 2)
+  (setq-default js2-strict-missing-semi-warning nil)
+  (setq-default typescript-indent-level 2)
+  (setq-default web-mode-markup-indent-offset 2)
+  (setq-default web-mode-code-indent-offset 2)
 
   ;; helper
   (defun true-frame-count()
@@ -392,9 +399,9 @@ you should place your code here."
   (setq-default twittering-convert-fix-size 36)
 
   ;; emoji
-  ;; (add-hook 'after-make-frame-functions (lambda (frame) (set-fontset-font t 'unicode "Noto Emoji")))
+  ;;(add-hook 'after-make-frame-functions (lambda (frame) (set-fontset-font t 'unicode "Apple Color Emoji")))
   ;; This works when using emacs without server/client
-  ;;(set-fontset-font t 'unicode "Noto Emoji" nil 'prepend)
+  ;;(set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend)
 
   (setq markdown-command "kramdown")
   ;; modeline
@@ -404,10 +411,24 @@ you should place your code here."
     :fallback "Not Started")
 
   (display-time-mode t)
-)
 
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
+  ;; go
+  (setq company-go-insert-arguments t)
+  (setq flycheck-check-syntax-automatically '(mode-enabled save))
+  (setq evil-escape-key-sequence nil)
+  (defun on-after-init ()
+    (unless (display-graphic-p (selected-frame))
+      (setq linum-format "%4d\u2502")))
+  ;;(global-linum-mode t)
+  (linum-relative-mode t)
+
+  (add-hook 'window-setup-hook 'on-after-init)
+
+  (add-to-load-path-if-exists "~/.spacemacs.d/apib-mode/")
+  (autoload 'apib-mode "apib-mode"
+    "Major mode for editing API Blueprint files" t)
+  (add-to-list 'auto-mode-alist '("\\.apib\\'" . apib-mode))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

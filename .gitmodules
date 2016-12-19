@@ -1,0 +1,3 @@
+[submodule "apib-mode"]
+	path = apib-mode
+	url = https://github.com/w-vi/apib-mode.git

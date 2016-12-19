@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+#name : rpc
+#key : rpc
+#contributor : A.I.
+# --
+rpc $1($2) returns ($3) {
+    $4
+}
